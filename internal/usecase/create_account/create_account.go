@@ -1,12 +1,12 @@
-package createaccount
+package create_account
 
 import (
-	"github.com/MuriloAbranches/fc-ms-walletcore/internal/entity"
-	"github.com/MuriloAbranches/fc-ms-walletcore/internal/gateway"
+	"github.com/muriloabranches/fc-ms-walletcore/internal/entity"
+	"github.com/muriloabranches/fc-ms-walletcore/internal/gateway"
 )
 
 type CreateAccountInputDTO struct {
-	ClientID string
+	ClientID string `json:"client_id"`
 }
 
 type CreateAccountOutputDTO struct {
@@ -18,10 +18,10 @@ type CreateAccountUseCase struct {
 	ClientGateway  gateway.ClientGateway
 }
 
-func NewCreateAccountUseCase(account gateway.AccountGateway, client gateway.ClientGateway) *CreateAccountUseCase {
+func NewCreateAccountUseCase(a gateway.AccountGateway, c gateway.ClientGateway) *CreateAccountUseCase {
 	return &CreateAccountUseCase{
-		AccountGateway: account,
-		ClientGateway:  client,
+		AccountGateway: a,
+		ClientGateway:  c,
 	}
 }
 
@@ -30,14 +30,13 @@ func (uc *CreateAccountUseCase) Execute(input CreateAccountInputDTO) (*CreateAcc
 	if err != nil {
 		return nil, err
 	}
-
 	account := entity.NewAccount(client)
 	err = uc.AccountGateway.Save(account)
 	if err != nil {
 		return nil, err
 	}
-
-	return &CreateAccountOutputDTO{
+	output := &CreateAccountOutputDTO{
 		ID: account.ID,
-	}, nil
+	}
+	return output, nil
 }

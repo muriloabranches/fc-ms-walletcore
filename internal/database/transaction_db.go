@@ -3,7 +3,7 @@ package database
 import (
 	"database/sql"
 
-	"github.com/MuriloAbranches/fc-ms-walletcore/internal/entity"
+	"github.com/muriloabranches/fc-ms-walletcore/internal/entity"
 )
 
 type TransactionDB struct {
@@ -22,17 +22,9 @@ func (t *TransactionDB) Create(transaction *entity.Transaction) error {
 		return err
 	}
 	defer stmt.Close()
-
-	_, err = stmt.Exec(
-		transaction.ID,
-		transaction.AccountFrom.ID,
-		transaction.AccountTo.ID,
-		transaction.Amount,
-		transaction.CreatedAt,
-	)
+	_, err = stmt.Exec(transaction.ID, transaction.AccountFrom.ID, transaction.AccountTo.ID, transaction.Amount, transaction.CreatedAt)
 	if err != nil {
 		return err
 	}
-
 	return nil
 }

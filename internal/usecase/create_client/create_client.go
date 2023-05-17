@@ -1,10 +1,10 @@
-package createclient
+package create_client
 
 import (
 	"time"
 
-	"github.com/MuriloAbranches/fc-ms-walletcore/internal/entity"
-	"github.com/MuriloAbranches/fc-ms-walletcore/internal/gateway"
+	"github.com/muriloabranches/fc-ms-walletcore/internal/entity"
+	"github.com/muriloabranches/fc-ms-walletcore/internal/gateway"
 )
 
 type CreateClientInputDTO struct {
@@ -35,17 +35,17 @@ func (uc *CreateClientUseCase) Execute(input CreateClientInputDTO) (*CreateClien
 	if err != nil {
 		return nil, err
 	}
-
 	err = uc.ClientGateway.Save(client)
 	if err != nil {
 		return nil, err
 	}
 
-	return &CreateClientOutputDTO{
+	output := &CreateClientOutputDTO{
 		ID:        client.ID,
 		Name:      client.Name,
 		Email:     client.Email,
 		CreatedAt: client.CreatedAt,
 		UpdatedAt: client.UpdatedAt,
-	}, nil
+	}
+	return output, nil
 }
